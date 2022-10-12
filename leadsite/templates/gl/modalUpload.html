@@ -1,0 +1,53 @@
+<div class="modal fade" id="upload" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Выбери файл</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+        
+            <!--<div class="card border-primary login-form">   --> 
+<!---                <div class="card-header">Choose the file</div>-->
+
+                <form id="uploadform" class="card-body" style="margin-top:10px; padding: 15px;"> 
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="File" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+                    <!--<label class="input-group-text" for="inputGroupFile02">Upload</label>-->
+                    </div>  
+                    <select id="selectstrategyparse" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                       <!-- 
+                        <option value="1">Имя-Номер-Город</option>
+                        <option value="2">Имя-Номер</option>
+                        <option value="3">Имя-Номер-Город-Товар</option>
+                        <option value="4">Three</option>
+                        -->
+                      </select>
+                      <br><br>
+                    
+                    <select class="form-select" aria-label="Default select example" id="selectcategories">
+                        {% for i in categories %}
+                        <option value="{{ i }}">{{ i }}</option>
+                        {% endfor %}
+                      </select>
+                      <br>
+                    
+                    
+                      <div class="d-flex justify-content-center">
+                      <button type="button" id="uploadButton" onclick="upload()"  class="btn btn-primary" disabled>Загрузить</button>
+                    </div>
+
+
+                    <div class="d-flex justify-content-center spinnerhidden" id="uplSpinner" >
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div id="notelist" class="notelist">
+                    {# сюда скрипт вставляет уведомления #}
+                    </div>
+                </form>
+            <!--</div>-->
+        </div>
+    </div>
+</div>

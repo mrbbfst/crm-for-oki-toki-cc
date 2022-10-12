@@ -1,0 +1,11 @@
+*.sqlite3
+**.vscode
+**/crm/migrations/0*.py
+**/leadsite/.env
+*.ts
+!*.d.ts
+*.scss
+**/__pycache__
+**/script.js
+./addLeads
+*.sock

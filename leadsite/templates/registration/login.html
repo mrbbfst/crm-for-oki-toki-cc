@@ -1,0 +1,55 @@
+{% extends 'gl/base.html' %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href='{% static "login/css/style.css" %}'>
+{% endblock styles %}
+
+{% block title %}
+    Login
+{% endblock title %}
+
+{% block content %}
+<div class="card border-primary">
+<div class="card-header">
+    {% if next %}
+  {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+  {% else %}
+    <p>Please login to see this page.</p>
+  {% endif %}
+  {% else %}
+    You are authenticated
+{% endif %}
+</div>
+<form id="loginform" class="card-body" method="post" action="{% url 'login' %}"> 
+    {% if not user.is_authenticated %}
+    {% csrf_token %}
+    <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">username</span>
+        <!--<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">-->
+        {{ form.username }}
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">password</span>
+        <!--<input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">-->
+        {{ form.password }}
+      </div>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+      <p style="margin-top:10px;"><a href="{% url 'password_reset' %}">Lost password?</a></p>
+      {% if form.errors %}
+  <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
+      {% endif %}
+      {% else %}
+      <a href="{% url 'crm' %}"> Go to crm </a>
+    {% endif %} {# is_authentificated #}
+
+</form>
+</div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src='{% static "login/js/script.js" %}'></script>
+{% endblock scripts %}
+

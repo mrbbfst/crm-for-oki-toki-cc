@@ -1,0 +1,27 @@
+{% extends 'gl/base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href='{% static "addLeads/css/style.css" %}'>
+{% endblock styles %}
+
+{% block content %}
+<div class="card-header">Sign in</div>
+  <form id="uploadform" class="card-body"> 
+    {% csrf_token %}
+    <div class="input-group mb-3">
+      <input type="file" class="form-control" id="File" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+      <!--<label class="input-group-text" for="inputGroupFile02">Upload</label>-->
+    </div>        
+    <button type="button" id="uploadButton" onclick="upload()"  class="btn btn-primary" disabled>Загрузить</button>
+    <p class="alert" id="note" style="margin-top:20px;"></p>
+  </form>
+</div>
+{% endblock content %}
+  
+{% block scripts %}
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/shim.min.js" integrity="sha512-nPnkC29R0sikt0ieZaAkk28Ib7Y1Dz7IqePgELH30NnSi1DzG4x+envJAOHz8ZSAveLXAHTR3ai2E9DZUsT8pQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src='{% static "addLeads/xlsx.full.min.js" %}' ></script>
+  <script src='{% static "addLeads/script.js" %}'></script>
+{% endblock scripts %}
