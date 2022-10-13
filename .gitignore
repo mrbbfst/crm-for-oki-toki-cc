@@ -9,3 +9,6 @@
 **/script.js
 ./addLeads
 *.sock
+**/leadsite/setting.py
+leadsite/settings.py
+leadsite/settings.py
