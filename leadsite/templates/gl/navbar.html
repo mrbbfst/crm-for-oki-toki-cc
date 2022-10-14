@@ -1,24 +1,25 @@
 <nav class="navbar navbar-dark bg-black nb">
     <div class="container-fluid  justify-content-between ">
         {% if user.is_authenticated %}
-        <div class="nav-element-group d-flex flex-grow-1">
+        <div class="nav-element-group d-flex">
             <button id="uploadModalButton" type="button" class="btn btn-success p-2 flex-shrink-1" data-bs-toggle="modal" data-bs-target="#upload" style="width:70px;font-size:0.7em;">Загрузить</button>
             <button type="button" class="btn btn-primary flex-shrink-1 p-2" id="updateModalOpen" data-bs-toggle="modal" data-bs-target="#upload" style="width:70px;font-size:0.7em;">Обновить</button>
-<!--
-            <div class="input-group mb-3 flex-grow-1">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Окно тишины</span>
-                <input id="silentwindow" type="text" pattern="\d{1,}" class="form-control valid-border" class="form-control" placeholder="Окно тишины" title="Окно тишины" aria-label="Text input with segmented dropdown button" style="min-width:30px; max-width:100px;">
-              </div>
-    -->          
 
-             <form class="input-group flex-grow-1" style="margin-right:10px;"  title="Окно тишины в днях" method="get" action="/crm/">
+             <form class="input-group flex-grow-1" style="margin-right:10px; min-width:167px;"  title="Окно тишины в днях" method="get" action="/crm/">
                 <label for="silentwindow" class="input-group-text" id="inputGroup-sizing-sm"style="font-size:1em;">Окно</label>
                 <input name="w" id="silentwindow"  type="number" class="form-control" placeholder="Окно тишины" min="1" step="1" aria-label="Окно тишины" style="min-width:30px; max-width:100px;">
                 <button type="submit" class="btn btn-outline-secondary" style="width:50px;">Go</button>
              </form>
-            
 
+<!--
+             <select class="form-select" aria-label="Default select example" style="max-width:300px;">
+              <option value="1">КЦ Калинка</option>
+              <option value="2">КЦ Журавлина</option>
+              <option value="3">КЦ Бела-бяреза</option>
+            </select>
+          -->
         </div>
+        
         
 
         <div>
@@ -31,4 +32,4 @@
         {% endif %}
     </div>
     
-  </nav>
+</nav>
