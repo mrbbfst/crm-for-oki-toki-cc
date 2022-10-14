@@ -2,7 +2,7 @@ export class DataTransfer {
     constructor(api_) {
         this.forms = document.getElementsByClassName("form_send_leads");
         for (let item of this.forms) {
-            item.addEventListener('submit', (e) => { e.preventDefault(); this.send_leads(api_, e); });
+            item.addEventListener('submit', (e) => { e.preventDefault(); DataTransfer.disabled_send_buttons({ disabled: true }); this.send_leads(api_, e); });
         }
     }
     send_leads(api_, e) {

@@ -1,3 +1,4 @@
+import { TEXT_CONSTANT } from "./constants.js";
 export class MessageReceiver {
     constructor(api__) {
         this.alertPlaceholder = document.getElementById('liveAlertPlaceholder');
@@ -18,7 +19,7 @@ export class MessageReceiver {
         const wrapper = document.createElement('div');
         wrapper.innerHTML = [
             `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-            `   <div>${text}</div>`,
+            `   <div>${text}\n${TEXT_CONSTANT.NEED_UPDATE_PAGE}</div>`,
             '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
             '</div>'
         ].join('');

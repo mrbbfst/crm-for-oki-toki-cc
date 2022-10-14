@@ -9,8 +9,9 @@ export class TransferStatus {
     run() {
         setInterval(() => {
             //let status!:{count:number};
+            this.set_spinner(true);
             this.api_.get_status(this.set_status, this);
-        }, 2000); //todo magic constant
+        }, 5001); //todo magic constant
     }
     set_status(self, count) {
         if (count.count) {

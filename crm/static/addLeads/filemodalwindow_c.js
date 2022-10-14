@@ -1,5 +1,5 @@
 export { FileModalWindow, };
-import { ID, TEXT_CONSTANT, ALERTS, CSS_CLASS_NAMES, API_C, WRAPPER_MESSAGE_WILL_BE_ADDED, WRAPPER_MESSAGE_ERROR_NOT_FOUND_NAME_OR_PHONE } from "./constants.js"; //import all constaints from ids_on_site
+import { ID, TEXT_CONSTANT, ALERTS, CSS_CLASS_NAMES, API_C, WRAPPER_MESSAGE_WILL_BE_ADDED, WRAPPER_MESSAGE_ERROR_NOT_FOUND_NAME_OR_PHONE, NORMALIZE_LIST_OF_ROWS_TO_STRING } from "./constants.js"; //import all constaints from ids_on_site
 import { Serializer } from "./serializer_c.js";
 import { WRAPPER_MESSAGE_WILL_BE_FINDED, WRAPPER_MESSAGE_ALERT_INVALID_PHONE } from "./constants.js";
 let set_disabled = (a) => {
@@ -113,12 +113,12 @@ class FileModalWindow {
             this.notify(WRAPPER_MESSAGE_WILL_BE_FINDED(result_.info), TYPE_OF_NOTE.INFO);
             this.to_allow_uploading(true);
         }
-        if (result_.alert) {
-            this.notify(WRAPPER_MESSAGE_ALERT_INVALID_PHONE(result_.alert), TYPE_OF_NOTE.ALERT);
+        if (result_.alert.length) {
+            this.notify(WRAPPER_MESSAGE_ALERT_INVALID_PHONE(NORMALIZE_LIST_OF_ROWS_TO_STRING(result_.alert)), TYPE_OF_NOTE.ALERT);
             this.to_allow_uploading(false);
         }
-        if (result_.error) {
-            this.notify(WRAPPER_MESSAGE_ERROR_NOT_FOUND_NAME_OR_PHONE(result_.error), TYPE_OF_NOTE.ERROR);
+        if (result_.error.length) {
+            this.notify(WRAPPER_MESSAGE_ERROR_NOT_FOUND_NAME_OR_PHONE(NORMALIZE_LIST_OF_ROWS_TO_STRING(result_.error)), TYPE_OF_NOTE.ERROR);
             this.to_allow_uploading(false);
             return;
         }
@@ -148,14 +148,16 @@ class FileModalWindow {
                 //prev_text_ = "Всего лидов найдено: ";
             }
             elem.setAttribute('style', "margin-top:20px;");
-            elem.innerText = prev_text_ + note_;
+            elem.innerHTML = prev_text_ + note_;
             return elem;
         };
         this.notelist.appendChild(make_notify_element());
     }
     notify_send_responce(note_) {
-        if (note_.success)
+        if (note_.success) {
             this.notify(WRAPPER_MESSAGE_WILL_BE_ADDED(note_.success), TYPE_OF_NOTE.INFO);
+            this.notify(TEXT_CONSTANT.NEED_UPDATE_PAGE, TYPE_OF_NOTE.ALERT);
+        }
         else if (note_.timeout)
             this.notify("Pleas reload page.", TYPE_OF_NOTE.ALERT);
     }

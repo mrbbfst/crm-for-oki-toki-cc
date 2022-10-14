@@ -15,6 +15,7 @@ export var TEXT_CONSTANT;
 (function (TEXT_CONSTANT) {
     TEXT_CONSTANT["UPLOADWINDOW_TITLE__MODEADD"] = "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u043B\u0438\u0434\u043E\u0432";
     TEXT_CONSTANT["UPLOADWINDOW_TITLE__MODEUPDATE"] = "\u041E\u0431\u043D\u043E\u0432\u043B\u0435\u043D\u0438\u0435 \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438 \u043B\u0438\u0434\u043E\u0432";
+    TEXT_CONSTANT["NEED_UPDATE_PAGE"] = "<b>\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u0435 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443, \u0447\u0442\u043E \u0431\u044B \u043E\u0431\u043D\u043E\u0432\u0438\u043B\u0438\u0441\u044C \u0434\u0430\u043D\u043D\u044B\u0435 \u0432 \u0442\u0430\u0431\u043B\u0438\u0446\u0435.</b>";
 })(TEXT_CONSTANT || (TEXT_CONSTANT = {}));
 export var ALERTS;
 (function (ALERTS) {
@@ -46,7 +47,13 @@ export const WRAPPER_MESSAGE_WILL_BE_ADDED = (txt) => {
     return "В базу было добавленно " + txt + " лидов";
 };
 export const WRAPPER_MESSAGE_WILL_BE_FINDED = (txt) => {
-    return "Всего лидов найдено: " + txt;
+    return "Всего лидов найдено: " + String(txt);
+};
+export const NORMALIZE_LIST_OF_ROWS_TO_STRING = (list) => {
+    let result_ = "";
+    for (let item of list)
+        result_ += item + ", ";
+    return result_;
 };
 export const WRAPPER_MESSAGE_ALERT_INVALID_PHONE = (txt) => {
     return "Невалидные номера телефонов в строках: " + txt;
@@ -62,3 +69,11 @@ export var URLS;
     URLS["HOME"] = "/crm/";
     URLS["HOME_WITH_STANDART_SILENT_WINDOW"] = "/crm/?w=31";
 })(URLS || (URLS = {}));
+export var SER_C;
+(function (SER_C) {
+    SER_C[SER_C["LENGTH_UA_PHONE"] = 12] = "LENGTH_UA_PHONE";
+    SER_C[SER_C["LENGTH_SHORT_UA_PHONE"] = 10] = "LENGTH_SHORT_UA_PHONE";
+    SER_C[SER_C["LENGTH_TOO_LONG_13_UA_PHONE"] = 13] = "LENGTH_TOO_LONG_13_UA_PHONE";
+    SER_C[SER_C["LENGTH_TOO_LONG_14_UA_PHONE"] = 14] = "LENGTH_TOO_LONG_14_UA_PHONE";
+    SER_C["ENGLISH_ALPHABET"] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+})(SER_C || (SER_C = {}));

@@ -3,7 +3,7 @@ export class api {
     constructor() {
         this.xhrs = { file: this.init_xhr(5000),
             transfer: this.init_xhr(5000),
-            transferstatus: this.init_xhr(1500),
+            transferstatus: this.init_xhr(5000),
             message: this.init_xhr(5000),
         };
         //this.init_file_xhr();
@@ -46,12 +46,17 @@ export class api {
     get_status(callback, ts_obj) {
         let url = API_C.URL_TRANSFERSTATUS;
         this.xhrs.transferstatus.onloadend = (e) => {
-            if (this.xhrs.transferstatus.status >= 200 && this.xhrs.transferstatus.status < 300)
-                callback(ts_obj, JSON.parse(e.target.responseText));
+            if (this.xhrs.transferstatus.status >= 200 && this.xhrs.transferstatus.status < 300) {
+                ts_obj.set_spinner(false);
+                ts_obj.set_status(ts_obj, JSON.parse(e.target.responseText));
+            }
+        };
+        this.xhrs.transferstatus.ontimeout = () => {
+            ts_obj.set_spinner(false);
         };
         this.xhrs.transferstatus.open(API_C.METHOD_GET, url);
         this.set_json_headers(this.xhrs.transferstatus);
-        this.xhrs.transferstatus.timeout = 1500;
+        //this.xhrs.transferstatus.timeout= 1500;
         this.xhrs.transferstatus.send();
     }
     get_message(message_object) {
