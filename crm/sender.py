@@ -36,8 +36,7 @@ queue_leads = []
 
 def get_count():
     global queue_leads
-    with lock_queue:
-        return len(queue_leads)
+    return len(queue_leads)
 
 
 def delete_from_queue(lead):
@@ -175,20 +174,7 @@ def send(send_data):
     temp = queue_leads
     
     r = api_send(temp)  
-    """
-    was_send = 0
-    wasnt_send = 0
-    for elem in r:
-        body_ = json.loads(elem.request.body)['details']
-        lead_ = {'Name' : body_['Name'], 'phone': body_['phones']}
-        delete_from_queue(lead_)
-        if(elem.status_code==200):
-            set_now_date(lead_['phone'])
-            was_send+=1
-        else:
-            wasnt_send+=1
-        #wasnt_send += '\n' + 'Status code: ' + str(elem.status_code) + '\n' + elem.content.decode('utf-8')
-    """
+
     was_send, wasnt_send = make_stat(r)
     if wasnt_send > 0:
         add_note("<b>Не</b> были отправленны " + str(wasnt_send))
