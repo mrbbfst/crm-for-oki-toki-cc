@@ -24,6 +24,10 @@ class Lead(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_count():
+        return Lead.objects.all().count()
+
     class Meta:
         verbose_name_plural = "Контакты"
         verbose_name = "Контакт"
@@ -38,3 +42,17 @@ class Dialer(models.Model):
     class Meta:
         verbose_name_plural = "Номера автообзвона"
         verbose_name = "Номер автообзвона"
+
+class Log(models.Model):
+    at = models.DateTimeField(null=False, auto_now_add=True)
+    text = models.TextField(null=False)
+
+    class Meta:
+        verbose_name_plural = "Логи"
+        verbose_name = "Лог"
+
+    @staticmethod
+    def new(text):
+        log = Log()
+        log.text = text
+        log.save()

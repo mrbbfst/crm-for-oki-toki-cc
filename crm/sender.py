@@ -7,6 +7,7 @@ import json
 from typing import Iterable, Iterator
 from .models import Lead as LeadModel
 from .models import Category as CategoryModel
+from .models import Log as LogModel
 from .windowsilence import getSilentWindow as window
 from . windowsilence import excludingDate
 from time import sleep 
@@ -48,9 +49,19 @@ def delete_from_queue(lead):
 def fill_queue(send_list):
     global queue_leads
     global lock_queue
-    for item in send_list:
-        with lock_queue:
-            queue_leads.append(item)
+    count = 0
+    first = ""
+    last = ""
+    with lock_queue:
+        for item in send_list:
+            if count==0:
+                first = item['phone']
+            if count==len(send_list)-1:
+                last = item['phone']
+            if not item in queue_leads:
+                queue_leads.append(item)
+                count += 1
+    LogModel.new("В очередь на отправку добавлено " + str(count) + " лидов первый " + str(LeadModel.objects.get(phone=first).id) + " послединй " + str(LeadModel.objects.get(phone=last).id))
 
 def get_note():
     global notes
@@ -114,6 +125,7 @@ def api_send(leads):
 def make_stat(r:Iterator):
     was_send = 0
     wasnt_send = 0
+    dialer_id = 0
     for elem in r:
         body_ = json.loads(elem.request.body)
         lead_ = {'Name' : body_['details']['Name'], 
@@ -125,16 +137,18 @@ def make_stat(r:Iterator):
             was_send+=1
         else:
             wasnt_send+=1
+        dialer_id = body_['dialer_id']
         #wasnt_send += '\n' + 'Status code: ' + str(elem.status_code) + '\n' + elem.content.decode('utf-8')
+    LogModel.new("Отправленно " + str(was_send) + " лидов на номер автообзвона " + str(dialer_id))
     return was_send, wasnt_send
 
-
+"""
 def add_leads(leads):
     global queue_leads
     for lead in leads:
         if(not lead in queue_leads):
             queue_leads.append(lead) 
-
+"""
 def make_list(leads_db, dialer_id ):
     result = []
     for lead in leads_db:

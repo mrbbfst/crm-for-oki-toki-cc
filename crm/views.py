@@ -8,7 +8,7 @@ from json import JSONDecodeError
 
 from .added import addLeads, getCategoriesContext
 from .added import updateLeads as updateLeadsINDB
-from .senddata import getCategoriesStats, getDialers
+from .senddata import getCategoriesStats, getDialers, getCountLeadsRow
 from .sender import get_count, send, get_note, add_note
 from time import sleep
 from datetime import date, datetime, timedelta
@@ -25,6 +25,7 @@ def index(request):
         return redirect('/crm/?w=31')
     context["cat_stat"] = getCategoriesStats(window_days) 
     context['dialers'] = getDialers()
+    context['countleadrows'] = getCountLeadsRow()
     
     #threading.Thread(target=send,).start()
     end = datetime.now()-start

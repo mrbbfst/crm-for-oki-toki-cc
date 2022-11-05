@@ -7,6 +7,7 @@ from symbol import return_stmt
 #from ..crm.models import Product as CategoryModel
 from .models import Lead as LeadModel
 from .models import Category as CategoryModel
+from .models import Log as LogModel
 
 """
 def checkPnoneNumbers(phones):
@@ -48,7 +49,7 @@ def addLeads(leads_raw):
     cstart = LeadModel.objects.all().count()
     upLeadBulk(make_LeadModelList(leads))
     cend = LeadModel.objects.all().count()
-
+    LogModel.new("В базу добавлено " + str(cend-cstart) + " лидов.")
     return cend-cstart
         
 def updLead(leads, category):
@@ -76,5 +77,5 @@ def updateLeads(leads_raw):
     ret_count = 0
     
     ret_count += updLead(leads['leads'] ,cat)
-
+    LogModel.new(str(ret_count) + " Лидов переведено в категорию " + cat.name)
     return ret_count

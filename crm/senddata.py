@@ -36,3 +36,6 @@ def getCategoriesStats(window_days) -> list:
 
 def getDialers():
     return DialerModel.objects.all()
+
+def getCountLeadsRow():
+    return LeadModel.get_count()
