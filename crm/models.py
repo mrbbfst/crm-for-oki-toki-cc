@@ -1,4 +1,3 @@
-from enum import unique
 from django.db import models
 
 # Create your models here.
@@ -27,6 +26,10 @@ class Lead(models.Model):
     @staticmethod
     def get_count():
         return Lead.objects.all().count()
+
+    #@staticmethod
+    #def db_size():
+        #Lead.objects.raw("select pg_database_size('"+ +"');")
 
     class Meta:
         verbose_name_plural = "Контакты"

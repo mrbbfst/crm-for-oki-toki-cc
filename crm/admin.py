@@ -18,6 +18,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class LeadAdmin(admin.ModelAdmin):
     list_display = ('id', 'name_view', 'phone_view', 'product_view','last_send_view')
     list_filter = ('last_send', 'product')
+    search_fields = ('id', 'name', 'phone')
 
     def name_view(self, obj):
         return obj.name

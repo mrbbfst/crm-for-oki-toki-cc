@@ -1,9 +1,7 @@
-from itertools import product
 import json
 from datetime import date,timedelta
 from math import prod
-from symbol import return_stmt
-from unicodedata import category
+
 from django.db.models import Q
 #from models import Lead as LeadModel
 #from ..crm.models import Lead as LeadModel

@@ -5,6 +5,7 @@ import { DataTransfer } from "./datatransfer_c.js";
 import { TransferStatus } from "./transferstatus_c.js";
 import { SilentController } from "./silentcontroller_c.js";
 import { MessageReceiver } from './mesagereceiver_c.js';
+import { IOCookie } from './iocookie.js';
 let mw = new FileModalWindow(document.getElementById('uploadform'));
 let api_obj = new api();
 let transfer = new DataTransfer(api_obj);
@@ -16,6 +17,8 @@ transferstatus.api_ = api_obj;
 transferstatus.run();
 let b = document.getElementById(ID.NAVBAR_BUTTONADDLEAD);
 let b2 = document.getElementById(ID.NAVBAR_BUTTONUPDATELEAD);
+let ioc = new IOCookie;
+ioc.setCookie('testname', 'testvalue');
 b.onclick = (e) => { mw.open(e); };
 b2.onclick = (e) => { mw.open(e); };
 // set events

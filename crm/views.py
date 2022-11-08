@@ -3,9 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 import threading
-
 from json import JSONDecodeError
-
 from .added import addLeads, getCategoriesContext
 from .added import updateLeads as updateLeadsINDB
 from .senddata import getCategoriesStats, getDialers, getCountLeadsRow
@@ -22,7 +20,7 @@ def index(request):
     context = {'categories' : getCategoriesContext()}
     window_days = request.GET.get('w')
     if(window_days is None or window_days=='' or int(window_days) == 0):
-        return redirect('/crm/?w=31')
+        return redirect('/crm/?w=90')
     context["cat_stat"] = getCategoriesStats(window_days) 
     context['dialers'] = getDialers()
     context['countleadrows'] = getCountLeadsRow()

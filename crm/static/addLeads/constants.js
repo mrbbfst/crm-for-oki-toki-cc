@@ -67,7 +67,7 @@ export const WRAPPER_MESSAGE_ERROR_NOT_FOUND_NAME_OR_PHONE = (text) => {
 export var URLS;
 (function (URLS) {
     URLS["HOME"] = "/crm/";
-    URLS["HOME_WITH_STANDART_SILENT_WINDOW"] = "/crm/?w=31";
+    URLS["HOME_WITH_STANDART_SILENT_WINDOW"] = "/crm/?w=90";
 })(URLS || (URLS = {}));
 export var SER_C;
 (function (SER_C) {
@@ -77,3 +77,7 @@ export var SER_C;
     SER_C[SER_C["LENGTH_TOO_LONG_14_UA_PHONE"] = 14] = "LENGTH_TOO_LONG_14_UA_PHONE";
     SER_C["ENGLISH_ALPHABET"] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 })(SER_C || (SER_C = {}));
+export var COOKIE_NAMES;
+(function (COOKIE_NAMES) {
+    COOKIE_NAMES["SILENT_WINDOW"] = "window";
+})(COOKIE_NAMES || (COOKIE_NAMES = {}));
