@@ -100,8 +100,10 @@ class Serializer {
             let cell_ = self.get_cell(sheet_, cord_);
             if (cell_ == null)
                 return cell_;
-            if (cell_.length == SER_C.LENGTH_UA_PHONE)
-                return cell_;
+            if (cell_.length == SER_C.LENGTH_UA_PHONE) {
+                if (cell_.match(RegExp(/^([0-9]{12})$/gs)))
+                    return cell_;
+            }
             if (cell_.length == SER_C.LENGTH_SHORT_UA_PHONE && cell_[0] == "0")
                 return "38" + cell_;
             if (cell_.length == SER_C.LENGTH_TOO_LONG_13_UA_PHONE) {
@@ -167,5 +169,13 @@ class Serializer {
         target_.info = check_info.info;
         target_.alert = check_info.alert;
         target_.error = check_info.error;
+    }
+    clear_null_value(table) {
+        let temp = [];
+        for (let lead of table) {
+            if (lead.name && lead.phone)
+                temp.push(lead);
+        }
+        return temp;
     }
 }

@@ -84,7 +84,7 @@ class FileModalWindow {
         let request_body = ((list_) => {
             return { "categories": this.catecory_select.value,
                 "leads": this.serialized_data };
-        })(this.serialized_data);
+        })(this.serializer.clear_null_value(this.serialized_data));
         this.api.send_new_leads(request_body, this.form.action, self);
     }
     read_leads_from_file() {
@@ -115,12 +115,11 @@ class FileModalWindow {
         }
         if (result_.alert.length) {
             this.notify(WRAPPER_MESSAGE_ALERT_INVALID_PHONE(NORMALIZE_LIST_OF_ROWS_TO_STRING(result_.alert)), TYPE_OF_NOTE.ALERT);
-            this.to_allow_uploading(false);
+            this.to_allow_uploading(true); // changed
         }
         if (result_.error.length) {
             this.notify(WRAPPER_MESSAGE_ERROR_NOT_FOUND_NAME_OR_PHONE(NORMALIZE_LIST_OF_ROWS_TO_STRING(result_.error)), TYPE_OF_NOTE.ERROR);
-            this.to_allow_uploading(false);
-            return;
+            this.to_allow_uploading(true); //changed
         }
         this.serialized_data = result_.leads;
     }
