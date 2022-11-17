@@ -178,4 +178,15 @@ class Serializer {
         }
         return temp;
     }
+    cut_down(table) {
+        let temp = [];
+        for (let i in table) {
+            temp[i] = table[i];
+            temp[i].name = temp[i].name.slice(1, 60);
+        }
+        return temp;
+    }
+    normalize_up_data(table) {
+        return this.cut_down(this.clear_null_value(table));
+    }
 }
