@@ -15,12 +15,19 @@ message_receiver.run(message_receiver);
 let transferstatus = new TransferStatus();
 transferstatus.api_ = api_obj;
 transferstatus.run();
-let b = document.getElementById(ID.NAVBAR_BUTTONADDLEAD);
-let b2 = document.getElementById(ID.NAVBAR_BUTTONUPDATELEAD);
+/**
+ * Sets events for open modal window
+ */
+let openModalWindowButtonsList = [
+    document.getElementById(ID.NAVBAR_BUTTONADDLEAD),
+    document.getElementById(ID.NAVBAR_BUTTONUPDATELEAD),
+    document.getElementById(ID.NAVBAR_BUTTONUPDATECOLUMN),
+];
+for (let button of openModalWindowButtonsList) {
+    button.onclick = (e) => { mw.open(e); };
+}
 let ioc = new IOCookie;
 ioc.setCookie('testname', 'testvalue');
-b.onclick = (e) => { mw.open(e); };
-b2.onclick = (e) => { mw.open(e); };
 // set events
 //silent.silent_input.onchange = (e) => {silent.on_change_window(transfer);}
 mw.submit_button.onclick = (e) => { mw.send_file_data(mw); };

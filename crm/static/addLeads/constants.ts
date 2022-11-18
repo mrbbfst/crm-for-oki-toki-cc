@@ -10,13 +10,14 @@ UPLOADWINDOW_NOTELIST = "notelist",
 
 //NAVIGATION BAR GROUP
 NAVBAR_BUTTONADDLEAD = "uploadModalButton",
-NAVBAR_BUTTONUPDATELEAD = "updateModalOpen"
+NAVBAR_BUTTONUPDATELEAD = "updateModalOpen",
+NAVBAR_BUTTONUPDATECOLUMN = "updateColumnOpen",
 }
 
 export enum TEXT_CONSTANT {
     UPLOADWINDOW_TITLE__MODEADD = "Добавление лидов",
     UPLOADWINDOW_TITLE__MODEUPDATE = "Обновление категории лидов",
-    NEED_UPDATE_PAGE = "<b>Обновите страницу, что бы обновились данные в таблице.</b>",
+    NEED_UPDATE_PAGE = "<b>Если страница не обновилась сама, обновите, что-бы увидеть изменения в таблице.</b>",
 }
 
 export enum ALERTS {

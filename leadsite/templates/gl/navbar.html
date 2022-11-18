@@ -2,9 +2,13 @@
     <div class="container-fluid  justify-content-between ">
         {% if user.is_authenticated %}
         <div class="nav-element-group d-flex">
-            <button id="uploadModalButton" type="button" class="btn btn-success p-2 flex-shrink-1" data-bs-toggle="modal" data-bs-target="#upload" style="width:70px;font-size:0.7em;">Загрузить</button>
-            <button type="button" class="btn btn-primary flex-shrink-1 p-2" id="updateModalOpen" data-bs-toggle="modal" data-bs-target="#upload" style="width:70px;font-size:0.7em;">Обновить</button>
 
+          <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="margin-right:10px;">
+
+            <button id="uploadModalButton" type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#upload" style="font-size:0.6em;">Загрузить</button><!--style="width:70px;font-size:0.7em;"-->
+            <button type="button" class="btn btn-primary " id="updateModalOpen" data-bs-toggle="modal" data-bs-target="#upload" style="font-size:0.6em;">Обновить категорию</button>
+            <button type="button" class="btn btn-info " id="updateColumnOpen" data-bs-toggle="modal" data-bs-target="#upload" style="font-size:0.6em;">Обновить столбец</button>
+          </div>
              <form class="input-group flex-grow-1" style="margin-right:10px; min-width:167px;"  title="Окно тишины в днях" method="get" action="/crm/">
                 <label for="silentwindow" class="input-group-text" id="inputGroup-sizing-sm"style="font-size:1em;">Окно</label>
                 <input name="w" id="silentwindow"  type="number" class="form-control" placeholder="Окно тишины" min="1" step="1" aria-label="Окно тишины" style="min-width:30px; max-width:100px;">

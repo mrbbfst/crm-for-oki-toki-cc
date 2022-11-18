@@ -94,22 +94,28 @@ class FileModalWindow {
 
         this.init_strategy_parse_element(this.form, (<HTMLButtonElement>e.target).id);
 
-        if((<HTMLButtonElement> e.target).id== ID.NAVBAR_BUTTONADDLEAD ) /*need to change magic constant to named variable */ { 
+        if((<HTMLButtonElement> e.target).id== ID.NAVBAR_BUTTONADDLEAD )  { 
             this.add_new_mode();
-        } else {
+        } else if((<HTMLButtonElement> e.target).id == ID.NAVBAR_BUTTONUPDATELEAD) {
             this.update_mode();
         }
+        this.set_title_window(e);
     };
 
     private add_new_mode() {
         //this.file_input.setAttribute("aboutdo", "upload");
-        this.form.parentElement!.getElementsByTagName('h5')!.namedItem(ID.UPLOADWINDOW_TITLE)!.innerText= TEXT_CONSTANT.UPLOADWINDOW_TITLE__MODEADD;
+        //this.form.parentElement!.getElementsByTagName('h5')!.namedItem(ID.UPLOADWINDOW_TITLE)!.innerText= TEXT_CONSTANT.UPLOADWINDOW_TITLE__MODEADD;
         this.form.action = API_C.URL_ADDNEWLEADS;
     }
     private update_mode() {
-        this.form.parentElement!.getElementsByTagName('h5')!.namedItem(ID.UPLOADWINDOW_TITLE)!.innerText= TEXT_CONSTANT.UPLOADWINDOW_TITLE__MODEUPDATE;
+        //this.form.parentElement!.getElementsByTagName('h5')!.namedItem(ID.UPLOADWINDOW_TITLE)!.innerText= TEXT_CONSTANT.UPLOADWINDOW_TITLE__MODEUPDATE;
         this.form.action = API_C.URL_UPDATELEADS;
         //this.file_input.setAttribute("aboutdo", "update");
+    }
+
+    private set_title_window(e: Event) {
+        let button = <HTMLButtonElement>e.target;
+        this.form.parentElement!.getElementsByTagName('h5')!.namedItem(ID.UPLOADWINDOW_TITLE)!.innerText= button.innerText;
     }
 
     
