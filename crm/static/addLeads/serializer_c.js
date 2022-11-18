@@ -183,7 +183,7 @@ class Serializer {
         for (let i in table) {
             temp[i] = table[i];
             temp[i].name = temp[i].name.slice(0, 59);
-            if (!temp[i].geo)
+            if (temp[i].geo)
                 temp[i].geo = temp[i].geo.slice(0, 254);
         }
         return temp;

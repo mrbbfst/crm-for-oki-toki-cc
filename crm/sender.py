@@ -113,7 +113,7 @@ def req(data):
     }
     
     return requests.post(url=api_urls['add-task'], json=body, headers=header) #заменить на нормальный ключ!!! 
-     
+
 
 def api_send(leads):
     result = None
@@ -179,7 +179,7 @@ def send(send_data):
     silent_=data['silent']
     leads_db = LeadModel.objects.filter(product=CategoryModel.objects.get(name=data['category'])) \
         .filter(Q(last_send__lte=window(silent_)) | Q(last_send=None)) \
-        .exclude(last_send=excludingDate())[:data['count']]    #
+        .exclude(last_send=excludingDate()).order_by('last_send', 'id')[:data['count']]    #    order_by(  )
     send_list = make_list(leads_db, data['dialer_id'])
     
     fill_queue(send_list)
