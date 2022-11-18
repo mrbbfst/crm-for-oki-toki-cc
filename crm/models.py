@@ -17,8 +17,8 @@ class Lead(models.Model):
     name = models.CharField(max_length=60,null=False)
     phone = models.CharField(max_length=20, null=False, unique=True)
     product = models.ForeignKey(Category, on_delete=models.CASCADE)
-    last_send = models.DateField(null=True,default=None)
-    geo = models.CharField(max_length=255, null=True, default=None)
+    last_send = models.DateField(null=True,default=None, blank=True)
+    geo = models.CharField(max_length=255, null=True, default=None, blank=True)
 
     def __str__(self):
         return self.name

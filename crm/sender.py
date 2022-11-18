@@ -12,6 +12,7 @@ from .windowsilence import getSilentWindow as window
 from . windowsilence import excludingDate
 from time import sleep 
 from django.db.models import Q
+from django.db.models import F 
 from datetime import date, datetime
 
 #from .api_func import api_send
@@ -179,7 +180,7 @@ def send(send_data):
     silent_=data['silent']
     leads_db = LeadModel.objects.filter(product=CategoryModel.objects.get(name=data['category'])) \
         .filter(Q(last_send__lte=window(silent_)) | Q(last_send=None)) \
-        .exclude(last_send=excludingDate()).order_by('last_send', 'id')[:data['count']]    #    order_by(  )
+        .exclude(last_send=excludingDate()).order_by(F('last_send').asc(nulls_first=True) ) [:data['count']]   #    order_by(  )
     send_list = make_list(leads_db, data['dialer_id'])
     
     fill_queue(send_list)
