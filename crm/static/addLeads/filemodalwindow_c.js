@@ -69,6 +69,7 @@ class FileModalWindow {
             this.update_mode();
         }
         this.set_title_window(e);
+        this.set_instruction_note();
     }
     ;
     add_new_mode() {
@@ -84,6 +85,9 @@ class FileModalWindow {
     set_title_window(e) {
         let button = e.target;
         this.form.parentElement.getElementsByTagName('h5').namedItem(ID.UPLOADWINDOW_TITLE).innerText = button.innerText;
+    }
+    set_instruction_note() {
+        this.notify(TEXT_CONSTANT.INSTRUCTION_ON_FILE_MODAL_WINDOW, TYPE_OF_NOTE.INFO);
     }
     send_file_data(self) {
         let request_body = ((list_) => {

@@ -100,6 +100,7 @@ class FileModalWindow {
             this.update_mode();
         }
         this.set_title_window(e);
+        this.set_instruction_note();
     };
 
     private add_new_mode() {
@@ -116,6 +117,10 @@ class FileModalWindow {
     private set_title_window(e: Event) {
         let button = <HTMLButtonElement>e.target;
         this.form.parentElement!.getElementsByTagName('h5')!.namedItem(ID.UPLOADWINDOW_TITLE)!.innerText= button.innerText;
+    }
+
+    private set_instruction_note() {
+        this.notify(TEXT_CONSTANT.INSTRUCTION_ON_FILE_MODAL_WINDOW, TYPE_OF_NOTE.INFO);
     }
 
     
@@ -139,7 +144,7 @@ class FileModalWindow {
             this.xlsx_object_file = this.serializer.read_file(file_);
             this.parse_xlsx();
         }
-         this.reader.readAsBinaryString(temp_);
+        this.reader.readAsBinaryString(temp_);
     }
 
     public parse_xlsx() {

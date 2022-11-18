@@ -112,21 +112,11 @@
 }
 
 .nav-element-group {
-  display: flex;
-  width: 70%;
-  min-width: 50%;
-  max-height: 40px;
+  display: flex !important;
+  flex-wrap: wrap;
 }
 .nav-element-group_button {
   text-overflow: ellipsis;
-}
-
-button + #updateModalOpen {
-  margin-left: 5px;
-}
-
-#updateModalOpen {
-  margin-right: 5px;
 }
 
 .nb {
@@ -142,4 +132,14 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.form_window_input_group {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.form_window_input_group:nth-child(1) {
+  border-radius: 1px !important;
 }/*# sourceMappingURL=style.css.map */

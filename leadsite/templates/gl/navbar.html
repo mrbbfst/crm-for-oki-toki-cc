@@ -1,15 +1,16 @@
 <nav class="navbar navbar-dark bg-black nb">
     <div class="container-fluid  justify-content-between ">
         {% if user.is_authenticated %}
-        <div class="nav-element-group d-flex">
+        <div class="nav-element-group ">
+         
 
-          <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="margin-right:10px;">
+          <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="margin-right:10px;flex-wrap:wrap;">
 
-            <button id="uploadModalButton" type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#upload" style="font-size:0.6em;">Загрузить</button><!--style="width:70px;font-size:0.7em;"-->
-            <button type="button" class="btn btn-primary " id="updateModalOpen" data-bs-toggle="modal" data-bs-target="#upload" style="font-size:0.6em;">Обновить категорию</button>
-            <button type="button" class="btn btn-info " id="updateColumnOpen" data-bs-toggle="modal" data-bs-target="#upload" style="font-size:0.6em;">Обновить столбец</button>
+            <button id="uploadModalButton" type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#upload" >Загрузить</button><!--style="width:70px;font-size:0.7em;"-->
+            <button type="button" class="btn btn-primary " id="updateModalOpen" data-bs-toggle="modal" data-bs-target="#upload" >Обновить категорию</button>
+            <button type="button" class="btn btn-info " id="updateColumnOpen" data-bs-toggle="modal" data-bs-target="#upload" disabled>Обновить столбец</button>
           </div>
-             <form class="input-group flex-grow-1" style="margin-right:10px; min-width:167px;"  title="Окно тишины в днях" method="get" action="/crm/">
+             <form class=" input-group flex-nowrap" style="width:auto;"  title="Окно тишины в днях" method="get" action="/crm/">
                 <label for="silentwindow" class="input-group-text" id="inputGroup-sizing-sm"style="font-size:1em;">Окно</label>
                 <input name="w" id="silentwindow"  type="number" class="form-control" placeholder="Окно тишины" min="1" step="1" aria-label="Окно тишины" style="min-width:30px; max-width:100px;">
                 <button type="submit" class="btn btn-outline-secondary" style="width:50px;">Go</button>
