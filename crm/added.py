@@ -53,9 +53,12 @@ def addLeads(leads_raw):
 def updLead(leads, category):
     upd_list = []
     for phone_ in leads:
-        lead = LeadModel.objects.get(phone=phone_)
-        lead.product = category
-        upd_list.append(lead)
+        try:
+            lead = LeadModel.objects.get(phone=phone_)
+            lead.product = category
+            upd_list.append(lead)
+        except LeadModel.DoesNotExist:
+            continue
 
     a = LeadModel.objects.bulk_update(upd_list, ['product'])
     return a
