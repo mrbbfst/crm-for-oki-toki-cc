@@ -226,7 +226,8 @@ class Serializer {
         let temp:[any?] = [];
         for(let i in table) {
             temp[i]=table[i];
-            temp[i].name = temp[i].name.slice(0,59);
+            if(temp[i].name)
+                temp[i].name = temp[i].name.slice(0,59);
             if (temp[i].geo) 
                 temp[i].geo = temp[i].geo.slice(0,254);
         }
@@ -235,8 +236,11 @@ class Serializer {
 
     
 
-    public normalize_up_data(table:[Lead?]) : [Lead?] {
-        return this.cut_down(this.clear_null_value(table));
+    public normalize_up_data(table:[Lead?], strategy:string) : [Lead?] {
+        if(strategy in this.strategy_add)
+            return this.cut_down(this.clear_null_value(table));
+        else if(strategy in this.strategy_update)
+            return this.cut_down(table);
     }
 
 }

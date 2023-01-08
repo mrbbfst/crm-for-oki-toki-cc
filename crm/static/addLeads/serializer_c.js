@@ -182,13 +182,17 @@ class Serializer {
         let temp = [];
         for (let i in table) {
             temp[i] = table[i];
-            temp[i].name = temp[i].name.slice(0, 59);
+            if (temp[i].name)
+                temp[i].name = temp[i].name.slice(0, 59);
             if (temp[i].geo)
                 temp[i].geo = temp[i].geo.slice(0, 254);
         }
         return temp;
     }
-    normalize_up_data(table) {
-        return this.cut_down(this.clear_null_value(table));
+    normalize_up_data(table, strategy) {
+        if (strategy in this.strategy_add)
+            return this.cut_down(this.clear_null_value(table));
+        else if (strategy in this.strategy_update)
+            return this.cut_down(table);
     }
 }

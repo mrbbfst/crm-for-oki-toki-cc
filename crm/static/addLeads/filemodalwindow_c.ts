@@ -128,7 +128,7 @@ class FileModalWindow {
         let request_body = ((list_) => {
             return {"categories": this.catecory_select.value,
                     "leads": list_} //this.serialized_data
-        }) ( this.serializer.normalize_up_data ( this.serialized_data ) );
+        }) ( this.serializer.normalize_up_data ( this.serialized_data, this.strategy_parse.value ) );
         this.api.send_new_leads(request_body, this.form.action, self);
     }
 
