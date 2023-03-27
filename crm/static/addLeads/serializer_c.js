@@ -1,7 +1,7 @@
 export { Serializer };
 // @deno-types="./xlsx.d.ts";
 import { read } from './xlsx.js';
-import { PHONE_PATTERN, SER_C } from "./constants.js";
+import { PHONE_PATTERN, SER_C, TEXT_CONSTANT } from "./constants.js";
 import { Info, LeadListWithInfo } from "./structures.js";
 class Serializer {
     constructor() {
@@ -143,7 +143,7 @@ class Serializer {
                 for (let row__ in ar_) {
                     let item = target_.leads[row__];
                     info_.add(item.phone);
-                    if (item.phone == undefined || item.name == undefined) {
+                    if (item.phone == undefined /*|| item.name == undefined*/) {
                         error_.push(Number(row__) + 1);
                         continue;
                     }
@@ -170,6 +170,16 @@ class Serializer {
         target_.alert = check_info.alert;
         target_.error = check_info.error;
     }
+    fill_empty_name(table) {
+        let temp = [];
+        for (let lead of table) {
+            if (!lead.name) {
+                lead.name = TEXT_CONSTANT.TEXT_INSTEAD_OF_EMPTY_NAME_FIELD;
+            }
+            temp.push(lead);
+        }
+        return temp;
+    }
     clear_null_value(table) {
         let temp = [];
         for (let lead of table) {
@@ -191,7 +201,7 @@ class Serializer {
     }
     normalize_up_data(table, strategy) {
         if (strategy in this.strategy_add)
-            return this.cut_down(this.clear_null_value(table));
+            return this.cut_down(this.clear_null_value(this.fill_empty_name(table)));
         else if (strategy in this.strategy_update)
             return this.cut_down(table);
     }

@@ -3,7 +3,7 @@ import { utils, writeFileXLSX, WorkBook, WorkSheet } from './xlsx';
 
 // @deno-types="./xlsx.d.ts";
 import { read, writeFile } from './xlsx.js';
-import { PHONE_PATTERN, SERIALIZE_STRATEGY, SER_C } from "./constants.js"
+import { PHONE_PATTERN, SERIALIZE_STRATEGY, SER_C, TEXT_CONSTANT } from "./constants.js"
 import { Lead, Info, LeadListWithInfo } from "./structures.js"
 
 class Serializer {
@@ -120,7 +120,7 @@ class Serializer {
     private phone_cell_handler(self: Serializer, sheet_: WorkSheet, 
                 cord_:string, 
                 lead:{name:string|null, phone:string|null, geo:string|null} /*leat it is out*/)
-             
+            
         {
             const get_or_null = (sheet__, cord__) => {
                 let cell_ = self.get_cell(sheet_,cord_);
@@ -183,7 +183,7 @@ class Serializer {
                     for(let row__ in ar_) {
                         let item=target_.leads[row__];
                         info_.add(item.phone);
-                        if(item.phone == undefined || item.name == undefined) {
+                        if(item.phone == undefined /*|| item.name == undefined*/) {
                             error_.push(Number(row__)+1); 
                             continue;
                         }
@@ -209,6 +209,17 @@ class Serializer {
         target_.info = check_info.info;
         target_.alert = check_info.alert;
         target_.error = check_info.error;
+    }
+
+    public fill_empty_name(table: [Lead?]) : [Lead?] {
+        let temp: [Lead?] = [];
+        for(let lead of table) {
+            if(!lead.name) {
+                lead.name=TEXT_CONSTANT.TEXT_INSTEAD_OF_EMPTY_NAME_FIELD;
+            }
+            temp.push(lead);
+        }
+        return temp;
     }
 
     public clear_null_value(table: [Lead?]) : [Lead?] 
@@ -238,7 +249,7 @@ class Serializer {
 
     public normalize_up_data(table:[Lead?], strategy:string) : [Lead?] {
         if(strategy in this.strategy_add)
-            return this.cut_down(this.clear_null_value(table));
+            return this.cut_down(this.clear_null_value(this.fill_empty_name(table)));
         else if(strategy in this.strategy_update)
             return this.cut_down(table);
     }

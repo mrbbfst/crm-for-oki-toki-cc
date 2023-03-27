@@ -83,6 +83,8 @@ export enum TEXT_CONSTANT {
             
         </div>
     `,
+    TEXT_INSTEAD_OF_EMPTY_NAME_FIELD = "Ім'я втрачене",
+
 
 }
 
@@ -130,8 +132,8 @@ export const NORMALIZE_LIST_OF_ROWS_TO_STRING = (list:[number?]) => {
     return result_;
 }
 
-export const WRAPPER_MESSAGE_ALERT_INVALID_PHONE = (txt: string) => {
-    return "Невалидные номера телефонов в строках: " + txt;
+export const WRAPPER_MESSAGE_ALERT_INVALID_PHONE = (text: string) => {
+    return "Невалидные номера телефонов в строках: " + text;
 }
  
 export const WRAPPER_MESSAGE_TRANSFER_STATUS = (text:string) => {
@@ -139,7 +141,7 @@ export const WRAPPER_MESSAGE_TRANSFER_STATUS = (text:string) => {
 }
 
 export const WRAPPER_MESSAGE_ERROR_NOT_FOUND_NAME_OR_PHONE = (text: string) => {
-    return "В указанных строках отсутствует номер или имя в выбранных солбцах: " + text;
+    return "Невалиден или отсутствует номер в строках: " + text;
 }
 
 export enum URLS {
