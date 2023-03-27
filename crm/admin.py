@@ -1,6 +1,6 @@
 from atexit import register
 from django.contrib import admin
-from .models import Category, Lead, Dialer, Log
+from .models import Category, Lead, Dialer, Log, ExportLog
 
 # Register your models here.
 
@@ -17,17 +17,19 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
     list_display = ('id', 'name_view', 'phone_view', 'product_view','last_send_view')
-    list_filter = ('last_send', 'product')
+    list_filter = ('product',) #
     search_fields = ('id', 'name', 'phone')
+    
 
     def name_view(self, obj):
         return obj.name
     name_view.short_description = 'ФИО'
 
     def last_send_view(self, obj):
-        return obj.last_send
-    last_send_view.empty_value_diaplay = "Не отправлялся"
-    last_send_view.short_description = "Обзвон"
+        #exlog = ExportLog.objects.filter(lead=obj).order_by('-at').first()
+        #return None if not exlog else exlog.at
+        return None if obj.last_export is None else obj.last_export.at
+    last_send_view.short_description = "Останній експорт"
 
     def phone_view(self, obj):
         return obj.phone

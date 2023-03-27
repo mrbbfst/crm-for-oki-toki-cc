@@ -14,11 +14,11 @@ Index crm
         <div class="form_wrapper">
             <div class="form_send_leads">
                 <input type="hidden" value="" name="sailent_window_in_form">
-                <div class="name_cat"> Категория </div>
-                <div class="count"> Всего в базе</div>
-                <div class="count"> Доступно для отправки</div>
+                <div class="name_cat"> Категорія </div>
+                <div class="count"> Усього в базі</div>
+                <div class="count"> Доступно для відправки </div>
                 <div class="input-send-count "> </div>
-                <div class="bpid_select"> Номер автообзвона </div>
+                <div class="bpid_select"> Номер автообдзвону </div>
                 <div class="button-send"> </div>
 
             </div>
@@ -26,26 +26,27 @@ Index crm
         {% for v in cat_stat %}
             {% if v.count > 0 or v.countForSend > 0 %}
                 <div class="form_wrapper">
-                    <form class="form_send_leads" action="{% url 'sendup' %}"method="post" name="sendform">
+                    <form class="form_send_leads" action="send/up"method="post" name="sendform">
                         <input type="hidden" value="" name="sailent_window_in_form">
                         <div class="name_cat"> {{ v.category }} </div>
                         <input type="hidden" value="{{ v.category }}" name="category">
                         <div class="count"> {{ v.count }} шт. </div>
                         <div class="count"> {{ v.countForSend }} шт. </div>
-                        <input name="count" type="text" pattern="^[\d]{1,}$" class="input-send-count" max="{{ v.countForSend }}" min="1" step="1" value='1' >
+                        <input name="count" type="text" pattern="^[\d]{1,}$" class="input-send-count" max="{{ v.countForSend }}" min='{% if v.countForSend == 0 %}0{%else%}{{v.countForSend}}{%endif%}' step="1" value='{% if v.countForSend == 0 %}0{%else%}1{%endif%}' >
 
 
                         <select class="form-select form-select-sm bpid_select"  aria-label=".form-select-sm example">
                             {% for i in dialers %}
                             <option value="{{ i.dialer_id }}">{{ i.name }}</option>
                             {% endfor %}
-                          </select>
+                        </select>
 
-
-                        <button class="btn btn-primary button-send" type="submit" disabled>
-                            <!--<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>-->
-                            Send
-                        </button> 
+                            
+                            
+                            <button class="btn btn-primary button-send" type="submit" {% if v.countForSend == 0 %} disabled {% endif %}>
+                                Send
+                            </button> 
+                        
                     </form>
                 </div>
             {% endif %}

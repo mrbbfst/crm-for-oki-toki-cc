@@ -6,13 +6,13 @@
 
           <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="margin-right:10px;flex-wrap:wrap;">
 
-            <button id="uploadModalButton" type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#upload" >Загрузить</button><!--style="width:70px;font-size:0.7em;"-->
-            <button type="button" class="btn btn-primary " id="updateModalOpen" data-bs-toggle="modal" data-bs-target="#upload" >Обновить категорию</button>
-            <button type="button" class="btn btn-info " id="updateColumnOpen" data-bs-toggle="modal" data-bs-target="#upload" disabled>Обновить столбец</button>
+            <button id="uploadModalButton" type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#upload" >Завантажити</button><!--style="width:70px;font-size:0.7em;"-->
+            <button type="button" class="btn btn-primary " id="updateModalOpen" data-bs-toggle="modal" data-bs-target="#upload" >Оновити ліди</button>
+            <!--<button type="button" class="btn btn-info " id="updateColumnOpen" data-bs-toggle="modal" data-bs-target="#upload" disabled>Обновить столбец</button> -->
           </div>
-             <form class=" input-group flex-nowrap" style="width:auto;"  title="Окно тишины в днях" method="get" action="/crm/">
-                <label for="silentwindow" class="input-group-text" id="inputGroup-sizing-sm"style="font-size:1em;">Окно</label>
-                <input name="w" id="silentwindow"  type="number" class="form-control" placeholder="Окно тишины" min="1" step="1" aria-label="Окно тишины" style="min-width:30px; max-width:100px;">
+             <form class=" input-group flex-nowrap" style="width:auto;"  title="Вікно тиші у днях" method="get" action="/crm/">
+                <label for="silentwindow" class="input-group-text" id="inputGroup-sizing-sm"style="font-size:1em;">Вікно</label>
+                <input name="w" id="silentwindow"  type="number" class="form-control" placeholder="Вікно тиші" min="1" step="1" aria-label="Вікно тиші" style="min-width:30px; max-width:100px;">
                 <button type="submit" class="btn btn-outline-secondary" style="width:50px;">Go</button>
              </form>
 
@@ -34,9 +34,35 @@
             <span id="leadsCountForSend" class="leadsCountForSend">  </span>
         </div>
         <div>
+          <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Список експортів
+          </a>
+          <div class="collapse" id="collapseExample" style="position:absolute;width:1000px;right:10px;">
+            <div class="card card-body">
+              <div style="width: 100%; padding:10px;">
+                <div name="row" style="width:100%;display: flex; justify-content: space-between;">
+                  <div> # </div>
+                  <div>Додан</div>
+                  <div>Взят в обработку</div>
+                  <div>Експортований</div>
+                  <a href="#"> Undo </a>
+                </div>
+                {% for exportlog in exportlog_list %}
+                  <div name="row" style="width:100%;display: flex; justify-content: space-between;">
+                    <div> {{ exportlog.id }} </div>
+                    <div> {{ exportlog.create }} </div>
+                    <div> {{ exportlog.started }} </div>
+                    <div> {{ exportlog.exported }} </div>
+                    <a href="#{{ exportlog.id }}"> Undo </a>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        <a href="http://{{another_crm}}.3w.com.ua">Переключитися на іншу срм</a><br>
         <a href="{% url 'admin:index' %}crm/log/" style="margin-right:5px;">Logs</a>
         <a href="{% url 'admin:index' %}" style="margin-right:5px;">Admin</a>
-        <a href="http://127.0.0.1:8000/accounts/logout/">Log out</a>
+        <a href="/accounts/logout/">Log out</a>
         </div>
         {% endif %}
     </div>

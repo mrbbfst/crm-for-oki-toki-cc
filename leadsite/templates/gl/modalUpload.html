@@ -11,24 +11,25 @@
 
                 <form id="uploadform" class="card-body" style="margin-top:10px; padding: 15px;"> 
                     {% csrf_token %}
-                    <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="File" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+                    <nav class="nav nav-pills nav-fill" id="sourse_switch">
+                      <a class="nav-link active" style="margin-left:15px;margin-right:15px;" name="file" aria-current="page" href="#">З файлу</a>
+                      <a class="nav-link" name="text" style="margin-left:15px;margin-right:15px;" href="#">З тексту</a>
+                    </nav>
+                    <br>
+                    <div class="input-group mb-3" id="input-group">
+                      <input type="file" class="form-control" id="File" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
                     <!--<label class="input-group-text" for="inputGroupFile02">Upload</label>-->
                     </div>  
                     <select id="selectstrategyparse" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                       <!-- 
-                        <option value="1">Имя-Номер-Город</option>
-                        <option value="2">Имя-Номер</option>
-                        <option value="3">Имя-Номер-Город-Товар</option>
-                        <option value="4">Three</option>
-                        -->
-                      </select>
-                      <br><br>
+                      
+                    </select>
+                    <br><br>
                     
                     <select class="form-select" aria-label="Default select example" id="selectcategories">
                         {% for i in categories %}
                         <option value="{{ i }}">{{ i }}</option>
                         {% endfor %}
+                        
                       </select>
                       <br>
                     

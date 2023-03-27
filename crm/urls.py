@@ -19,10 +19,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='crm'),
-    path('add/', views.addPage),
-    path('add/up/', views.up),
+    #path('add/', views.addPage),
+    path('add/up/', views.upload),  #add/up
     path('check-send/', views.sendprogress),
-    path('send/up', views.sendup, name="sendup"),
+    path('send/up', views.createexport, name="sendup"),
     path('add/update/', views.updateleads, name="updatesleads"),
     path('get-note/', views.getmainnote, name='getmainnote'),
     path('test/', views.test)

@@ -13,7 +13,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" href='{% static "bootstrap-5.2.1/css/bootstrap.min.css" %}'>
-  <link rel="stylesheet" href='{% static "addLeads/css/spinstyle.css" %}'>
+  <link rel="stylesheet" href='{% static "scripts/css/spinstyle.css" %}'>
   {% block styles %}
   {% endblock styles %}
 
@@ -31,7 +31,7 @@
     
 </div>
 
-<div class="footer"> <div>Powered by me</div> [{% if timeanswer %} <div>{{ timeanswer }}sec.</div>{% endif %}|<div> Записей: {{ countleadrows }} </div> ]</div>
+<div class="footer"> <div>Stat </div> [{% if timeanswer %} <div>{{ timeanswer }}sec.</div>{% endif %}|<div> Записей: {{ countleadrows }} </div> ]</div>
   {% block scripts %}
 
   {% endblock scripts %}
@@ -39,19 +39,7 @@
   {% include 'gl/notify_main.html' %}
  
   <script src='{% static "bootstrap-5.2.1/js/bootstrap.min.js" %}'></script>
-  <!--<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/shim.min.js" integrity="sha512-nPnkC29R0sikt0ieZaAkk28Ib7Y1Dz7IqePgELH30NnSi1DzG4x+envJAOHz8ZSAveLXAHTR3ai2E9DZUsT8pQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
- 
-  <script src='{% static "addLeads/xlsx.full.min.js" %}' ></script> 
-  <script type="module">
-    import { read, utils, writeFile } from '{% static "addLeads/xlsx.mjs"%}';
-    // ... use the imported functions here
-  </script>
- 
-  <script type="module" src='{% static "addLeads/mesagereceiver_c.js" %}'></script> 
-  <script type="module" src='{% static "addLeads/filemodalwindow_c.js" %}'></script>
-  <script type="module" src='{% static "addLeads/serializer_c.js" %}'></script> -->
-  <script type="module" src='{% static "addLeads/mainscript.js" %}'></script>
+
+  <script type="module" src='{% static "scripts/mainscript.js" %}'></script>
 </body>
 </html>
