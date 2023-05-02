@@ -14,11 +14,13 @@ def checkPnoneNumbers(phones):
             phones[k] = True 
     return phones
 """
-
+'''
 def getCategoriesContext():
     obj = list(CategoryModel.objects.all())
     return obj
+'''
 
+'''
 def checkProducts(products):
     for k in products:
         try:
@@ -26,7 +28,7 @@ def checkProducts(products):
         except CategoryModel.DoesNotExist:
             obj =CategoryModel(name=k)
             obj.save()
-
+'''
 def make_LeadModelList(leads):
     result = []
     cat = CategoryModel.objects.get(name=leads['categories'])

@@ -9,6 +9,11 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def getContext():
+        obj = list(Category.objects.all())
+        return obj
+    
     class Meta:
         verbose_name_plural = "Категории товаров"
         verbose_name = "Категория товаров"

@@ -4,12 +4,13 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 import threading
 from json import JSONDecodeError
-from .added import addLeads, getCategoriesContext
+from .added import addLeads#, getCategoriesContext
 from .added import updateLeads as updateLeadsINDB
 from .senddata import getCategoriesStats, getDialers, getCountLeadsRow
 from .sender import get_count, send, get_note, add_note
 from time import sleep
 from datetime import date, datetime, timedelta
+from .models import Category as CategoryModel
 
 # Create your views here.
 
@@ -17,7 +18,8 @@ from datetime import date, datetime, timedelta
 @login_required
 def index(request):
     start = datetime.now()
-    context = {'categories' : getCategoriesContext()}
+    #context = {'categories' : getCategoriesContext()}
+    context = {'categories' : CategoryModel.getContext()}
     window_days = request.GET.get('w')
     if(window_days is None or window_days=='' or int(window_days) == 0):
         return redirect('/crm/?w=90')
