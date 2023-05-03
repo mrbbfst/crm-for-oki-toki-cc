@@ -20,7 +20,7 @@ export class DataTransfer {
 
         let data = {category: category_,
             count: Number(count_),
-            dialer_id: Number(dialer_id_),
+            dialer_id: dialer_id_,
             silent: Number(silent_),
         };
 

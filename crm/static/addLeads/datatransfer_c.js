@@ -13,7 +13,7 @@ export class DataTransfer {
         let silent_ = form.querySelector('input[name=sailent_window_in_form]').value;
         let data = { category: category_,
             count: Number(count_),
-            dialer_id: Number(dialer_id_),
+            dialer_id: dialer_id_,
             silent: Number(silent_),
         };
         api_.transfer_leads(data, form.action);

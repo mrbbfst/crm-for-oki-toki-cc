@@ -41,7 +41,7 @@ class Lead(models.Model):
         verbose_name = "Контакт"
 
 class Dialer(models.Model):
-    dialer_id = models.CharField(max_length=3,unique=True, null=False)
+    dialer_id = models.CharField(max_length=50,unique=True, null=False)
     name = models.CharField(max_length=100,  null=False)
 
     def __str__(self):

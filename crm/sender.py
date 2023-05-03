@@ -15,6 +15,8 @@ from django.db.models import Q
 from django.db.models import F 
 from datetime import date, datetime
 
+from urllib import parse
+
 #from .api_func import api_send
 
 import environ
@@ -90,6 +92,15 @@ api_urls = {'add-update' : 'https://noname.oki-toki.net/api/v1/contacts/add-upda
             'add-task' : 'https://noname.oki-toki.net/api/v1/dialers/create_task',
             'add-tasks' : 'https://noname.oki-toki.net/api/v1/imports/tasks/add',
             'test' : 'http://127.0.0.1:8000/crm/test/',
+            'monster-add' : 'http://api.monsterleads.pro/method/{method}'
+            #?api_key={key}&format=json&code={code}&tel={tel}&name={name}&ip={ip}',
+            #http://api.monsterleads.pro/method/order.add
+            # ?api_key=
+            # &format=json
+            # &code=
+            # &tel=
+            # &name=
+            # &ip=
             }
 
 api_token = env('API_TOKEN') 
@@ -97,11 +108,13 @@ api_token = env('API_TOKEN')
 def make_body(lead):
     global api_token
     
-    result = {'api_token': api_token, \
-        'phones' : lead['phone'],
-        'details' : {'Name' : lead['Name']},
-        'bp_id' : 1,
-        'dialer_id': lead['dialer_id']
+    result = {'api_key': api_token, \
+        'tel' : lead['phone'],
+        'name' : lead['Name'],
+        #'code' : code,
+        'code': lead['dialer_id'],
+        'format' : 'json',
+        'ip' : '127.0.0.1'
     }
     return result
 
@@ -113,14 +126,17 @@ def req(data):
     "Accept": "application/json",
     }
     
-    return requests.post(url=api_urls['add-task'], json=body, headers=header) #заменить на нормальный ключ!!! 
+    return requests.get(url=api_urls['monster-add'].format(method="order.add"), 
+                        params=body, headers=header) #заменить на нормальный ключ!!! 
 
 
 def api_send(leads):
-    result = None
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        result = executor.map(req,leads)
-        executor.shutdown(wait=False)
+    result = list()
+    #with ThreadPoolExecutor(max_workers=5) as executor:
+    #    result = executor.map(req,leads)
+    #    executor.shutdown(wait=False)
+    for data in leads:
+        result.append(req(data))
     return result
 
 def make_stat(r:Iterator):
@@ -128,17 +144,24 @@ def make_stat(r:Iterator):
     wasnt_send = 0
     dialer_id = 0
     for elem in r:
-        body_ = json.loads(elem.request.body)
-        lead_ = {'Name' : body_['details']['Name'], 
-            'phone': body_['phones'], 
-            'dialer_id': body_['dialer_id']}
+        body_={}
+        try:
+            body_ = parse.urlsplit(elem.url)
+            body_ = parse.parse_qs(parse.urlsplit(elem.url).query)
+        except TypeError as e:
+            print(e)
+            wasnt_send+=1
+            continue
+        lead_ = {'Name' : body_['name'][0], 
+            'phone': body_['tel'][0], 
+            'dialer_id': body_['code'][0]}
         delete_from_queue(lead_)
-        if(elem.status_code==200):
+        if(elem.status_code==200 and json.loads(elem.content)["status"]== 'ok'):
             set_now_date(lead_['phone'])
             was_send+=1
         else:
             wasnt_send+=1
-        dialer_id = body_['dialer_id']
+        dialer_id = body_['code'][0]
         #wasnt_send += '\n' + 'Status code: ' + str(elem.status_code) + '\n' + elem.content.decode('utf-8')
     LogModel.new("Отправленно " + str(was_send) + " лидов на номер автообзвона " + str(dialer_id))
     return was_send, wasnt_send

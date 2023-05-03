@@ -46,7 +46,7 @@ export class api{
         this.xhrs.file.send(JSON.stringify(leads));
     }
 
-    public transfer_leads(data: {category:string, count:number, dialer_id:number, silent:number}, url:string) {
+    public transfer_leads(data: {category:string, count:number, dialer_id:string, silent:number}, url:string) {
         this.xhrs.transfer.onloadend = (e) => {
             if(this.xhrs.file.status >=200 && this.xhrs.file.status <300) {
             location.reload();
