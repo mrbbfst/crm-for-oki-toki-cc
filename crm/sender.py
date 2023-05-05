@@ -13,7 +13,7 @@ from . windowsilence import excludingDate
 from time import sleep 
 from django.db.models import Q
 from django.db.models import F 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from urllib import parse
 
@@ -110,7 +110,7 @@ def make_body(lead):
     
     result = {'api_key': api_token, \
         'tel' : lead['phone'],
-        'name' : lead['Name'],
+        'client' : lead['Name'],
         #'code' : code,
         'code': lead['dialer_id'],
         'format' : 'json',
@@ -136,7 +136,11 @@ def api_send(leads):
     #    result = executor.map(req,leads)
     #    executor.shutdown(wait=False)
     for data in leads:
+        start_time = datetime.now()
         result.append(req(data))
+        timesleep = timedelta(seconds=1)-(datetime.now()-start_time)
+        if timesleep.seconds<1:
+            sleep(timesleep.microseconds/1000000)
     return result
 
 def make_stat(r:Iterator):
@@ -152,7 +156,7 @@ def make_stat(r:Iterator):
             print(e)
             wasnt_send+=1
             continue
-        lead_ = {'Name' : body_['name'][0], 
+        lead_ = {'Name' : body_['client'][0], 
             'phone': body_['tel'][0], 
             'dialer_id': body_['code'][0]}
         delete_from_queue(lead_)
