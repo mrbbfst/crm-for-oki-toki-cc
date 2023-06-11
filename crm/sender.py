@@ -118,29 +118,35 @@ def make_body(lead):
     }
     return result
 
-def req(data):
+def req(data, authorize):
     global api_urls
     body = make_body(data)
     header = {
     "Content-Type": "application/json",
     "Accept": "application/json",
+    "x-access-token" : authorize
     }
     
     return requests.get(url=api_urls['monster-add'].format(method="order.add"), 
                         params=body, headers=header) #заменить на нормальный ключ!!! 
 
+def authorize(token):
+    url = "https://api.moyklass.com/v1/company/auth/getToken"
+    result = requests.post(url=url, json={"apiKey": api_token})
+    if(result.status_code==200):
+        result= json.loads(result)["accessToken"]
 
 def api_send(leads):
     result = list()
     #with ThreadPoolExecutor(max_workers=5) as executor:
     #    result = executor.map(req,leads)
     #    executor.shutdown(wait=False)
+    key = authorize(api_token)
     for data in leads:
         start_time = datetime.now()
-        result.append(req(data))
-        timesleep = timedelta(seconds=1)-(datetime.now()-start_time)
-        if timesleep.seconds<1:
-            sleep(timesleep.microseconds/1000000)
+        result.append(req(data, key))
+
+    
     return result
 
 def make_stat(r:Iterator):
