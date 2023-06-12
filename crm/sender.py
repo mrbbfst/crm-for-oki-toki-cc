@@ -47,7 +47,14 @@ def delete_from_queue(lead):
     global queue_leads
     global lock_queue
     with lock_queue:
-        queue_leads.remove(lead)
+        i = 0
+        for lead_ in queue_leads:
+            if lead_["phone"] == lead["phone"]:
+                break
+            i+=1
+        if i<len(queue_leads):
+            del queue_leads[i]
+        #queue_leads.remove(i)
 
 def fill_queue(send_list):
     global queue_leads
@@ -92,7 +99,8 @@ api_urls = {'add-update' : 'https://noname.oki-toki.net/api/v1/contacts/add-upda
             'add-task' : 'https://noname.oki-toki.net/api/v1/dialers/create_task',
             'add-tasks' : 'https://noname.oki-toki.net/api/v1/imports/tasks/add',
             'test' : 'http://127.0.0.1:8000/crm/test/',
-            'monster-add' : 'http://api.monsterleads.pro/method/{method}'
+            'monster-add' : 'http://api.monsterleads.pro/method/{method}',
+            "moyklass" : "https://api.moyklass.com/v1/company/users"
             #?api_key={key}&format=json&code={code}&tel={tel}&name={name}&ip={ip}',
             #http://api.monsterleads.pro/method/order.add
             # ?api_key=
@@ -108,13 +116,14 @@ api_token = env('API_TOKEN')
 def make_body(lead):
     global api_token
     
-    result = {'api_key': api_token, \
-        'tel' : lead['phone'],
-        'client' : lead['Name'],
+    result = {#'api_key': api_token, \
+        'name' : lead['Name'],
+        'phone' : lead['phone'],
         #'code' : code,
-        'code': lead['dialer_id'],
-        'format' : 'json',
-        'ip' : '127.0.0.1'
+        #'code': lead['dialer_id'],
+        #'format' : 'json',
+        #'ip' : '127.0.0.1'
+        #'filials' : [0]
     }
     return result
 
@@ -127,14 +136,16 @@ def req(data, authorize):
     "x-access-token" : authorize
     }
     
-    return requests.get(url=api_urls['monster-add'].format(method="order.add"), 
-                        params=body, headers=header) #заменить на нормальный ключ!!! 
+    return requests.post(url=api_urls['moyklass'],#.format(method="order.add"), 
+                        json=body, headers=header) #заменить на нормальный ключ!!! 
 
 def authorize(token):
+    
     url = "https://api.moyklass.com/v1/company/auth/getToken"
     result = requests.post(url=url, json={"apiKey": api_token})
     if(result.status_code==200):
-        result= json.loads(result)["accessToken"]
+        result= json.loads(result.content)["accessToken"]
+    return result
 
 def api_send(leads):
     result = list()
@@ -155,25 +166,28 @@ def make_stat(r:Iterator):
     dialer_id = 0
     for elem in r:
         body_={}
+        lead_={}
         try:
-            body_ = parse.urlsplit(elem.url)
-            body_ = parse.parse_qs(parse.urlsplit(elem.url).query)
-        except TypeError as e:
+            body_ = json.loads(elem.content.decode())
+            #body_ = parse.parse_qs(parse.urlsplit(elem.url).query)
+            lead_ = {'Name' : body_['name'], 
+            'phone': body_['phone'], 
+            #'dialer_id': body_['code'][0]
+            }
+        except KeyError as e:
             print(e)
             wasnt_send+=1
             continue
-        lead_ = {'Name' : body_['client'][0], 
-            'phone': body_['tel'][0], 
-            'dialer_id': body_['code'][0]}
+        
         delete_from_queue(lead_)
-        if(elem.status_code==200 and json.loads(elem.content)["status"]== 'ok'):
+        if(elem.status_code==200):
             set_now_date(lead_['phone'])
             was_send+=1
         else:
             wasnt_send+=1
-        dialer_id = body_['code'][0]
+        #dialer_id = body_['code'][0]
         #wasnt_send += '\n' + 'Status code: ' + str(elem.status_code) + '\n' + elem.content.decode('utf-8')
-    LogModel.new("Отправленно " + str(was_send) + " лидов на номер автообзвона " + str(dialer_id))
+    LogModel.new("Отправленно " + str(was_send) + " лидов")
     return was_send, wasnt_send
 
 """
