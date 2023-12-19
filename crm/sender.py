@@ -87,7 +87,7 @@ def set_now_date(phone_):
     lead.save()
 
 api_urls = {'add-update' : 'https://noname.oki-toki.net/api/v1/contacts/add-update',
-            'add-task' : 'https://noname.oki-toki.net/api/v1/dialers/create_task',
+            'add-task' : 'https://nutra.voiptime.app/api/v2/order/create',
             'add-tasks' : 'https://noname.oki-toki.net/api/v1/imports/tasks/add',
             'test' : 'http://127.0.0.1:8000/crm/test/',
             }
@@ -97,11 +97,11 @@ api_token = env('API_TOKEN')
 def make_body(lead):
     global api_token
     
-    result = {'api_token': api_token, \
-        'phones' : lead['phone'],
-        'details' : {'Name' : lead['Name']},
-        'bp_id' : 1,
-        'dialer_id': lead['dialer_id']
+    result = {#'api_token': api_token, \
+        'phone' : lead['phone'],
+        'full_name' :  lead['Name'],
+        'shop_id' : 1,
+        'project_id': lead['dialer_id']
     }
     return result
 
@@ -111,6 +111,7 @@ def req(data):
     header = {
     "Content-Type": "application/json",
     "Accept": "application/json",
+    "Authorization": "Bearer " + api_token,
     }
     
     return requests.post(url=api_urls['add-task'], json=body, headers=header) #заменить на нормальный ключ!!! 
@@ -129,16 +130,16 @@ def make_stat(r:Iterator):
     dialer_id = 0
     for elem in r:
         body_ = json.loads(elem.request.body)
-        lead_ = {'Name' : body_['details']['Name'], 
-            'phone': body_['phones'], 
-            'dialer_id': body_['dialer_id']}
+        lead_ = {'Name' : body_['full_name'], 
+            'phone': body_['phone'], 
+            'dialer_id': body_['project_id']}
         delete_from_queue(lead_)
         if(elem.status_code==200):
             set_now_date(lead_['phone'])
             was_send+=1
         else:
             wasnt_send+=1
-        dialer_id = body_['dialer_id']
+        dialer_id = body_['project_id']
         #wasnt_send += '\n' + 'Status code: ' + str(elem.status_code) + '\n' + elem.content.decode('utf-8')
     LogModel.new("Отправленно " + str(was_send) + " лидов на номер автообзвона " + str(dialer_id))
     return was_send, wasnt_send
