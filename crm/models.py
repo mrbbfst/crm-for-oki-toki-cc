@@ -41,9 +41,13 @@ class Lead(models.Model):
         verbose_name = "Контакт"
 
 class Dialer(models.Model):
-    dialer_id = models.CharField(max_length=3,unique=True, null=False)
+    dialer_id = models.CharField(max_length=100, null=False)
     name = models.CharField(max_length=100,  null=False)
+    shop_id = models.CharField(max_length=255, default='')
 
+    @property
+    def id_(self):
+        return self.id
     def __str__(self):
         return str(self.name) + ": " + str(self.dialer_id)
 

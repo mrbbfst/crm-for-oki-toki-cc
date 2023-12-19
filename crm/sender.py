@@ -7,6 +7,7 @@ import json
 from typing import Iterable, Iterator
 from .models import Lead as LeadModel
 from .models import Category as CategoryModel
+from .models import Dialer as DialerModel
 from .models import Log as LogModel
 from .windowsilence import getSilentWindow as window
 from . windowsilence import excludingDate
@@ -100,7 +101,7 @@ def make_body(lead):
     result = {#'api_token': api_token, \
         'phone' : lead['phone'],
         'full_name' :  lead['Name'],
-        'shop_id' : 1,
+        'shop_id' : lead['shop_id'],
         'project_id': lead['dialer_id']
     }
     return result
@@ -132,7 +133,8 @@ def make_stat(r:Iterator):
         body_ = json.loads(elem.request.body)
         lead_ = {'Name' : body_['full_name'], 
             'phone': body_['phone'], 
-            'dialer_id': body_['project_id']}
+            'dialer_id': body_['project_id'],
+            'shop_id' : body_['shop_id']}
         delete_from_queue(lead_)
         if(elem.status_code==200):
             set_now_date(lead_['phone'])
@@ -151,12 +153,13 @@ def add_leads(leads):
         if(not lead in queue_leads):
             queue_leads.append(lead) 
 """
-def make_list(leads_db, dialer_id ):
+def make_list(leads_db, dialer_id, shop_id ):
     result = []
     for lead in leads_db:
         item = {'Name' : lead.name,
                 'phone' : lead.phone,
-                'dialer_id' : dialer_id}
+                'dialer_id' : dialer_id,
+                'shop_id' :shop_id}
         result.append(item)
 
     return result
@@ -177,12 +180,13 @@ def send(send_data):
     global queue_leads
 
     data = json.loads(send_data) # example {'category':"hot", 'count':253, 'dialer_id': 12} 
+    dialer = DialerModel.objects.get(id=data['dialer_id'])
     data['count'] = int(data['count'])
     silent_=data['silent']
     leads_db = LeadModel.objects.filter(product=CategoryModel.objects.get(name=data['category'])) \
         .filter(Q(last_send__lte=window(silent_)) | Q(last_send=None)) \
         .exclude(last_send=excludingDate()).order_by(F('last_send').asc(nulls_first=True) ) [:data['count']]   #    order_by(  )
-    send_list = make_list(leads_db, data['dialer_id'])
+    send_list = make_list(leads_db, dialer.dialer_id, dialer.shop_id)
     
     fill_queue(send_list)
 

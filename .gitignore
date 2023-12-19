@@ -13,4 +13,7 @@
 leadsite/settings.py
 leadsite/settings.py
 **/gith
-**/gith.pub
+**/gith.pubenv
+env
+requirements.txt
+static
